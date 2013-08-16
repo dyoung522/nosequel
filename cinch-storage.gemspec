@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cinch/storage/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cinch-storage"
-  spec.version       = Cinch::Storage::VERSION
+  spec.version       = '0.0.1'
   spec.authors       = ["Donovan C. Young"]
   spec.email         = ["dyoung522@gmail.com"]
   spec.description   = %q{TODO: Write a gem description}
@@ -20,4 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+
+  spec.add_dependency 'cinch', '~> 2.0.7'
 end

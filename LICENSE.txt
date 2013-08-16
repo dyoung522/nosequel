@@ -1,4 +1,4 @@
-Copyright (c) 2013 Donovan Young
+Copyright (c) 2013 Donovan C. Young
 
 MIT License
 
