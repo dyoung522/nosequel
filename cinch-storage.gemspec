@@ -4,11 +4,11 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "cinch-storage"
-  spec.version       = '0.0.1'
+  spec.version       = '0.1.0'
   spec.authors       = ["Donovan C. Young"]
   spec.email         = ["dyoung522@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = "Persistent data storage for Cinch"
+  spec.summary       = "Provides a persistant data storage engine for the Cinch IRC framework"
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
 
   spec.add_dependency 'cinch', '~> 2.0.7'
+  spec.add_dependency 'sequel', '~> 4.1.0'
 end

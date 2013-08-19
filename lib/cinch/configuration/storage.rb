@@ -5,7 +5,9 @@ module Cinch
 
       def self.default_config
         {
-            :connected => nil
+          database: 'sqlite',
+          user:     nil,
+          password: nil
         }
       end
     end
