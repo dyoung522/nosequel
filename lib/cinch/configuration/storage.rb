@@ -1,13 +1,14 @@
 module Cinch
   class Configuration
     class Storage < Configuration
-      KnownOptions = [:connected]
+      KnownOptions = [:database, :host, :user, :password]
 
       def self.default_config
         {
-          database: 'sqlite',
-          user:     nil,
-          password: nil
+          type: 'sqlite',
+          user: nil,
+          pass: nil,
+          host: 'localhost'
         }
       end
     end

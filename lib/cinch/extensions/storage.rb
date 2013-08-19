@@ -1,11 +1,29 @@
+require 'cinch'
 require 'sequel'
+require 'cinch/configuration/storage'
 
 module Cinch
   module Extensions
     module Storage
 
+      config = defined?(bot.config.storage) ? bot.config.storage : OpenStruct.new( Cinch::Configuration::Storage.default_config )
+
+      # Start our connection string, built it via the config.storage variables
+      connect_string = "#{config.type || 'sqlite'}://"
+
+      # Add user:password if supplied
+      if config.user
+        connect_string += "#{config.user}"
+        connect_string += ":#{config.pass}" if config.pass
+      end
+
+      # Add host:port if supplied
+      connect_string += "@#{config.host}/" if config.host
+
+      puts connect_string
+
       # Create the Sequel connection
-      DB = Sequel.sqlite('data.db')
+      DB = Sequel.connect( connect_string + 'data.db' )
 
       class StorageContainer
 
@@ -49,7 +67,11 @@ module Cinch
       end
 
       def self.drop!( table )
-        DB.drop_table( table )
+        DB.drop_table( table.to_sym ) if self.exists?(table)
+      end
+
+      def self.exists?( table )
+        return DB.table_exists?( table.to_sym )
       end
 
     end
