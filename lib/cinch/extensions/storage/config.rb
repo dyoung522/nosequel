@@ -1,7 +1,7 @@
 module Cinch
   module Extensions
     module Storage
-      class StorageConfig < Cinch::Configuration
+      class Config < Cinch::Configuration
         KnownOptions = %w( db_type db_name db_user db_pass db_host )
 
         def self.default_config
