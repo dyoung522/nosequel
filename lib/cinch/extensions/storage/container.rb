@@ -61,8 +61,8 @@ module Cinch
             DB.add_index table, :value
           end
 
+          @db    = DB[table]
           @table = table
-          @data  = DB[table]
         end
 
         # storage[:key] = value
@@ -71,11 +71,10 @@ module Cinch
           if exists?(key) # column already exists
             data(key).update(value: value)
           else
-            @data.insert(key: key.to_s, value: value)
+            @db.insert(key: key.to_s, value: value)
           end
         end
 
-        # TODO: Need to figure out how to chain these methods, so that data[:key].delete will work as expected
         # storage[:key]
         # Returns the value stored in :key, or nil of the data wasn't found.
         def [](key)
@@ -95,24 +94,21 @@ module Cinch
         end
         alias_method :exist?, :exists?
 
-        # Returns an array of all keys stored in the container
-        def keys
-          @data.to_hash(:key).keys
+        # Handle all other Hash methods
+        def method_missing(meth, *args, &block)
+          @db.to_hash(:key, :value).send(meth, *args, &block)
         end
 
-        # Returns an array of all values stored in the container
-        def values
-          @data.to_hash(:value).keys
+        # Make sure we respond to all Hash methods
+        def respond_to?(meth)
+          @db.to_hash(:key, :value).respond_to?(meth)
         end
-
-        #def each(&block)
-        #  yield @data.select(:key, :value).next
-        #end
 
         private
 
+          # Returns a single record which matches key
           def data(key)
-            @data.where(key: key.to_s)
+            @db.where(key: key.to_s)
           end
 
       end
