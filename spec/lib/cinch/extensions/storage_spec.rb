@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'storage'
+require 'cinch-storage'
 
 module Cinch
   module Extensions
