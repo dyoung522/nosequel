@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'cinch/extensions/storage'
+require 'storage'
 
 module Cinch
   module Extensions
@@ -7,8 +7,8 @@ module Cinch
 
       subject(:data) { Storage.register(:test) }
 
-      before(:each)  { data[:testkey] = 'testing' }
-      after(:all)    { Storage.drop!(:test)    }
+      before(:each) { data[:testkey] = 'testing' }
+      after(:each) { Storage.drop!(:test) }
 
       context 'registering a table' do
 
@@ -46,6 +46,29 @@ module Cinch
         it "updates an existing key/value pair" do
           data[:testkey] = 'new value'
           data[:testkey].should == 'new value'
+        end
+
+        it "deletes the key upon delete" do
+          data.delete(:testkey)
+          data.exists?(:testkey).should be_false
+        end
+
+      end
+
+      context "using query methods" do
+
+        before(:each) do
+          data[:test1] = 'value1'
+          data[:test2] = 'value2'
+          data[:test3] = 'value3'
+        end
+
+        it "returns an array of keys with #keys" do
+          data.keys.should == %w( testkey test1 test2 test3 )
+        end
+
+        it "returns an array of values with #values" do
+          data.values.should == %w( testing value1 value2 value3 )
         end
 
       end
