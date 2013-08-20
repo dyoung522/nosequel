@@ -1,10 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'cinch/extensions/storage/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cinch-storage"
-  spec.version       = '0.1.0'
+  spec.version       = Cinch::Extensions::Storage::VERSION
   spec.authors       = ["Donovan C. Young"]
   spec.email         = ["dyoung522@gmail.com"]
   spec.description   = "Persistent data storage for Cinch"
