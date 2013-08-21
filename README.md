@@ -1,16 +1,19 @@
 Cinch::Storage
 ==============
 
-Description
+What is it?
 -----------
 
 Cinch::Storage adds a persistent database backed storage container for use in cinch plugins.
+It's an extension of the Cinch IRC bot framework originally written by [Dominik Honnef](http://dominik.honnef.co)
 
-The program is an extension of the Cinch IRCbot framework originally written by [Dominik Honnef](http://dominik.honnef.co)
 
+How do I use it?
+------------------
 
-Installation
-------------
+***Note: Hey, we're still very much under development, so this information may or may not be lying to you. Shhhh!***
+
+### Install it
 
 Add this line to your application's Gemfile:
 
@@ -25,30 +28,29 @@ Or install it yourself as:
     $ gem install cinch-storage
 
 
-Usage
------
-
-***Note: This is still very much under development, so may or may not match up with the code base entirely.***
-
-In your plugin:
+### Use it
 
 ```ruby
 require 'cinch-storage'
 
-container = Cinch::Extensions::Storage.register(:mytable)
-container[:some_key] = 'Some value I want to store persistently'
+container = Cinch::Extensions::Storage.register(:my_plugin)
+container[:some_key] = "Some value I care about"
 ```
-	
-That's all there is to it.  Once registered, your storage container will store your data in a Hash-like interface which supports most Hash methods.  It will also persist between runs.
 
-Behind the scenes, your data is stored in a database table named 'mytable', being saved and retrieved from the database automatically (and only when needed) as you use the data.
+That's all there is to it, easy peasy ~Japanesey~!
+
+Once you've registered your plugin, your storage container will act just like a Hash, use it to store anything you want to retrieve later.
+
+Behind the scenes, we're actually writing your data in a database with a table named `my_plugin`.  We (and by _we_, I mean Sequel) only reads and writes to the database when it absolutely has to, so it keeps disk access down to a minimum.  It's also thread-safe, so... YAY!
 
 
-### Configuration
+### Configure it
 
-Cinch::Storage uses the [Sequel](https://github.com/jeremyevans/sequel) Gem, so it supports any database backend supported by Sequel.
+The defaults (`sqlite`) are going to work pretty well for most people, but hey, if you have something fancier in mind and want to change the database options, go for it!
 
-When configuring your bot, you may use the following configuration options:
+##### Here's how...
+
+Just modify any (or all) of configuration options below before you call Storage.register, and you're golden.
 
 <table>
     <tr>
@@ -57,7 +59,7 @@ When configuring your bot, you may use the following configuration options:
         <th>Default</th></tr>
     <tr>
         <td>bot.config.storage.db_type</td>
-        <td>The database type (sqlite, mysql, pg, etc.) -- see the Sequel gem for options.</td>
+        <td>The database type (sqlite, mysql, postgres, etc.) -- see http://sequel.rubyforge.org/rdoc-adapters/index.html for complete options.</td>
         <td>sqlite</td>
     </tr>
     <tr>
@@ -77,25 +79,39 @@ When configuring your bot, you may use the following configuration options:
     </tr>
 </table>
 
-By default, it will use 'sqlite://data.db' -- which is probably fine for most users, but feel free to use what you're comfortable with.
+
+### Notes
+
+Since Cinch::Storage uses [Sequel](https://github.com/jeremyevans/sequel), it supports anything they do.  If you want to use some fancy new (or anciently old) database model they don't support, 'tuff noogies -- go whine to them.  'nuff said on that.  :-)
+
+If you wish cinch-storage could act in a particular way, or had some cool new feature, by all means, [let me know!](mailto:dyoung522@gmail.com)
 
 <!-- TODO: Create documentation -->
 For full details and more examples, please see the Documentation
 
 
-Other Stuff
------------
+Other Stuff you might want to know
+----------------------------------
 
-### Authors
-- [Donovan C. Young](http://github.com/dyoung522)
-- [Dominik Honnef](http://dominik.honnef.co) (Cinch)
+### Who's Involved with this?
+
+- [Donovan C. Young](mailto:dyoung522@gmail.com) (wrote this)
+- [Dominik Honnef](http://dominik.honnef.co) (wrote Cinch)
 
 
-### Contribute
+### Help (I need somebody)!
+
+You can email me directly at dyoung522@gmail.com or find me lurking in the #cinch channel on irc.freenode.net
+
+
+### How can I help?
+
+Easy...
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
 
