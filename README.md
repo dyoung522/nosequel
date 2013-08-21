@@ -51,11 +51,30 @@ Cinch::Storage uses the [Sequel](https://github.com/jeremyevans/sequel) Gem, so 
 When configuring your bot, you may use the following configuration options:
 
 <table>
-    <tr><th>Item</th><th>Default</th><th>Description</th></tr>
-    <tr><td>bot.config.storage.db_type</td><td>sqlite</td><td>The database type (sqlite, mysql, pg, etc.) -- see the Sequel gem for options.</td></tr>
-    <tr><td>bot.config.storage.db_name</td><td>data.db</td><td>The name of the database (or file, depending on type)</td></tr>
-    <tr><td>bot.config.storage.db_user</td><td>nil</td><td>The database user[:password] to use.</td></tr>
-    <tr><td>bot.config.storage.db_host</td><td>nil</td><td>The database host[:port] to use.</td></tr>
+    <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Default</th></tr>
+    <tr>
+        <td>bot.config.storage.db_type</td>
+        <td>The database type (sqlite, mysql, pg, etc.) -- see the Sequel gem for options.</td>
+        <td>sqlite</td>
+    </tr>
+    <tr>
+        <td>bot.config.storage.db_name</td>
+        <td>The name of the database (or file, depending on type)</td>
+        <td>data.db</td>
+    </tr>
+    <tr>
+        <td>bot.config.storage.db_user</td>
+        <td>The database user[:password] to use.</td>
+        <td>nil</td>
+    </tr>
+    <tr>
+        <td>bot.config.storage.db_host</td>
+        <td>The database host[:port] to use.</td>
+        <td>nil</td>
+    </tr>
 </table>
 
 By default, it will use 'sqlite://data.db' -- which is probably fine for most users, but feel free to use what you're comfortable with.
