@@ -13,9 +13,6 @@ module Cinch
           }
         end
 
-        def self.foo
-          'bar'
-        end
       end
     end
   end

@@ -8,39 +8,39 @@ module Cinch
   module Extensions
     module Storage
 
-      config = defined?(bot.config.storage) ? bot.config.storage : OpenStruct.new( Config.default_config )
-
-      # Start our connection string, built it via the config.storage variables
-      connect_string = "#{config.db_type || 'sqlite'}://"
-
-      # Add user:password if supplied
-      if config.db_user
-        connect_string += "#{config.db_user}"
-
-        # Add either a @ or / depending on if a host was provided too
-        connect_string += config.db_host ? '@' : '/'
-      end
-
-      # Add host:port if supplied
-      connect_string += "#{config.db_host}/" if config.db_host
-
-      # Create the Sequel connection
-      DB = Sequel.connect( connect_string + config.db_name )
-
       # Creates and returns a storage container
-      # Usage: store = Storage.register(:table_name)
-      def self.register( table )
-        Container.new(table)
+      def self.register( table, opt_config = {} )
+
+        config = defined?(bot.config.storage) ? bot.config.storage : OpenStruct.new( Config.default_config.merge(opt_config) )
+
+        # Start our connection string, built it via the config.storage variables
+        connect_string = "#{config.db_type || 'sqlite'}://"
+
+        # Add user:password if supplied
+        if config.db_user
+          connect_string += "#{config.db_user}"
+
+          # Add either a @ or / depending on if a host was provided too
+          connect_string += config.db_host ? '@' : '/'
+        end
+
+        # Add host:port if supplied
+        connect_string += "#{config.db_host}/" if config.db_host
+
+
+        # Create the Sequel connection
+        @db = Sequel.connect( connect_string + config.db_name )
+        Container.new(@db, table)
       end
 
       # Permanently deletes table from the underlying database
       def self.drop!( table )
-        DB.drop_table( table.to_sym ) if exists?(table)
+        @db.drop_table( table.to_sym ) if exists?(table)
       end
 
       # Tests if table exists in the database, returns true or false
       def self.exists?( table )
-        DB.table_exists?( table.to_sym )
+        @db.table_exists?( table.to_sym )
       end
 
       # Storage::Container class defines the methods to
@@ -49,19 +49,19 @@ module Cinch
         # Create and/or retrieve a table from our database
         # and returns a storage container class.
         # called via Storage.register(:table)
-        def initialize(table)
+        def initialize(db, table)
 
-          unless DB.table_exists?(table.to_sym)
-            DB.create_table table do
+          unless db.table_exists?(table.to_sym)
+            db.create_table table do
               primary_key :id
               String      :key
               String      :value
             end
-            DB.add_index table, :key
-            DB.add_index table, :value
+            db.add_index table, :key
+            db.add_index table, :value
           end
 
-          @db    = DB[table]
+          @db    = db[table]
           @table = table
         end
 
