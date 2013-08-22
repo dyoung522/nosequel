@@ -79,11 +79,14 @@ Just modify any (or all) of configuration options below before you call Storage.
     </tr>
 </table>
 
-As if that wasn't easy enough, you can also modify any of those options directly during your call to #register using
-`container = Storage.register(:my_plugin,  db_name: 'plugin',
-                                           db_type: 'mysql',
-                                           db_user: 'myname',
-                                           db_host: 'localhost')`
+As if that weren't easy enough, you can also modify any of those options directly during your call to #register using
+
+```ruby
+container = Storage.register(:my_plugin,  db_name: 'plugin',
+                                          db_type: 'mysql',
+                                          db_user: 'myname',
+                                          db_host: 'localhost')
+```
 
 ### Notes
 
