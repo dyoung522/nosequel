@@ -80,7 +80,10 @@ Just modify any (or all) of configuration options below before you call Storage.
 </table>
 
 As if that wasn't easy enough, you can also modify any of those options directly during your call to #register using
-`container = Cinch::Extensions::Storage.register(:my_plugin, db_name: 'plugin', db_type: 'mysql', db_user: 'myname', db_host: 'localhost')`
+`container = Storage.register(:my_plugin,  db_name: 'plugin',
+                                           db_type: 'mysql',
+                                           db_user: 'myname',
+                                           db_host: 'localhost')`
 
 ### Notes
 
