@@ -9,7 +9,7 @@ module Cinch
             db_type: 'sqlite',    # Any database connector supported by the Sequel gem
             db_name: 'data.db',   # The name of the database (or file) to use
             db_user: nil,         # The database user and optional password (user:password)
-            db_host: nil,         # The database host and options port (host:port)
+            db_host: 'localhost'  # The database host and options port (host:port)
           }
         end
 

@@ -75,7 +75,7 @@ Just modify any (or all) of configuration options below before you call Storage.
     <tr>
         <td>bot.config.storage.db_host</td>
         <td>The database host[:port] to use.</td>
-        <td>nil</td>
+        <td>localhost</td>
     </tr>
 </table>
 

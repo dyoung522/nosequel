@@ -22,11 +22,10 @@ module Cinch
 
           # Add either a @ or / depending on if a host was provided too
           connect_string += config.db_host ? '@' : '/'
+
+          # Add host:port if supplied
+          connect_string += "#{config.db_host}/" if config.db_host
         end
-
-        # Add host:port if supplied
-        connect_string += "#{config.db_host}/" if config.db_host
-
 
         # Create the Sequel connection
         @db = Sequel.connect( connect_string + config.db_name )
