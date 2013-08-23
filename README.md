@@ -36,7 +36,7 @@ container = NoSequel.register(:my_store)
 container[:some_key] = "Some value I care about"
 ```
 
-That's all there is to it, easy peasy ~Japanesey~!
+That's all there is to it, easy peasy ~~Japanesey~~!
 
 Once you've registered your plugin, your storage container will act much like a Hash, use it to store any string (or Hash or Array) you want to retrieve later.
 
@@ -50,36 +50,16 @@ The defaults (`sqlite`) are going to work pretty well for most people, but hey, 
 
 ##### Here's how...
 
-Modify any (or all) of configuration options below before you call Storage.register, and you're golden.
+Modify any (or all) of configuration options below via optional extra parameters in your call to #register
 
-<table>
-    <tr>
-        <th>Item</th>
-        <th>Description</th>
-        <th>Default</th></tr>
-    <tr>
-        <td>db_type</td>
-        <td>The database type (sqlite, mysql, postgres, etc.) -- see [Sequel Gem](http://sequel.rubyforge.org/rdoc-adapters/index.html) for complete options.</td>
-        <td>sqlite</td>
-    </tr>
-    <tr>
-        <td>db_name</td>
-        <td>The name of the database (or file, depending on type)</td>
-        <td>data.db</td>
-    </tr>
-    <tr>
-        <td>db_user</td>
-        <td>The database user[:password] to use.</td>
-        <td>nil</td>
-    </tr>
-    <tr>
-        <td>db_host</td>
-        <td>The database host[:port] to use.</td>
-        <td>localhost</td>
-    </tr>
-</table>
+| Item | Description | Default Value |
+|------|:-------------|---------------|
+| db_type | The database type (sqlite, mysql, postgres, etc.) -- see [Sequel Gem](http://sequel.rubyforge.org/rdoc-adapters/index.html) for complete options. | sqlite |
+| db_name | The name of the database (or file, depending on type) | data.db |
+| db_user | The database user[:password] to use. | sqlite |
+| db_host | The database host[:port] to use. | sqlite |
 
-As if that weren't easy enough, you can also modify any of those options directly during your call to #register using
+##### Like This...
 
 ```ruby
 container = NoSequel.register(:my_plugin, db_name: 'mydb',
@@ -87,6 +67,18 @@ container = NoSequel.register(:my_plugin, db_name: 'mydb',
                                           db_user: 'myname',
                                           db_host: 'localhost')
 ```
+
+##### Or if you with to include your options in another structure, you can do this too...
+
+```ruby
+container_options = NoSequel::Configuration.new( db_name: 'mydb',
+                                                 db_type: 'mysql',
+                                                 db_user: 'myname',
+                                                 db_host: 'localhost')
+```
+
+Then just provide `container_options` back to your #register call.
+
 
 ### Notes
 
