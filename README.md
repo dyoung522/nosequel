@@ -52,8 +52,8 @@ The defaults (`sqlite`) are going to work pretty well for most people, but hey, 
 
 Modify any (or all) of configuration options below via optional extra parameters in your call to #register
 
-| Item | Description | Default Value |
-|------|:-------------|---------------|
+|  Item  | Description  | Default Value  |
+|:------:|:-------------|:---------------|
 | db_type | The database type (sqlite, mysql, postgres, etc.) -- see [Sequel Gem](http://sequel.rubyforge.org/rdoc-adapters/index.html) for complete options. | sqlite |
 | db_name | The name of the database (or file, depending on type) | data.db |
 | db_user | The database user[:password] to use. | sqlite |
