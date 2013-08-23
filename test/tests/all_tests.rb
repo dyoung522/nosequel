@@ -1,20 +1,3 @@
-require 'minitest/autorun'
-require_relative 'test_helper'
-require 'nosequel'
-
-module TestSetup
-  def setup
-    @table = :test
-    @data = NoSequel.register(@table, db_type: 'sqlite', db_name: 'test.db')
-
-    (1..4).each { |i| @data["test#{i}".to_sym] = "value#{i}" }
-  end
-
-  def teardown
-    NoSequel.drop!(@table)
-  end
-end
-
 class TestNoSequelConfig < Minitest::Unit::TestCase
   def test_config_via_register
     ( db_name, db_type, db_user, db_host ) = %w(testing mysql test)
@@ -130,6 +113,7 @@ end
 
 class TestNoSequelWrites < Minitest::Unit::TestCase
   include TestSetup
+
   Tester = Struct.new(:data)
 
   def test_non_string_key_raises_error
@@ -137,11 +121,12 @@ class TestNoSequelWrites < Minitest::Unit::TestCase
   end
 
   def test_serialize_objects_before_write
-    obj = Tester.new('hi there')
-
-    @data[:test_object] = obj
-
+    @data[:test_object] = Tester.new()
     assert_instance_of Tester, @data[:test_object]
+  end
+
+  def test_deserialize_objects_before_read
+    @data[:test_object] = Tester.new('hi there')
     assert_equal 'hi there', @data[:test_object].data
   end
 end
