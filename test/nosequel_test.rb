@@ -114,3 +114,20 @@ class TestNoSequelQuery < Minitest::Unit::TestCase
 
 end
 
+class TestNoSequelWrites < Minitest::Unit::TestCase
+  include TestSetup
+  Tester = Struct.new(:data)
+
+  def test_non_string_key_raises_error
+    assert_raises(ArgumentError) { @data[Struct.new(:data)] }
+  end
+
+  def test_serialize_objects_before_write
+    obj = Tester.new('hi there')
+
+    @data[:test_object] = obj
+
+    assert_kind_of Struct, @data[:test_object]
+    assert_equal 'hi there', @data[:test_object].data
+  end
+end

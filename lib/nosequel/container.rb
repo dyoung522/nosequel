@@ -1,5 +1,6 @@
 require 'sequel'
 require 'ostruct'
+require 'yaml'
 
 # This Module provides key/value storage methods to a database powered by Sequel
 # Once created, a nosequel container works much like a Hash, but stores the data
@@ -72,16 +73,17 @@ module NoSequel
 
     # Assigns the <value> to a given <:key>
     def []=(key, value)
+      obj = value.is_a?(String) ? value : YAML::dump(value)
       if exists?(key) # column already exists
-        data(key).update(value: value)
+        data(key).update(value: obj)
       else
-        @db.insert(key: key.to_s, value: value)
+        @db.insert(key: key.to_s, value: obj)
       end
     end
 
     # Returns the value stored in :key, or nil of the data wasn't found.
     def [](key)
-      exists?(key) ? data(key).get(:value) : nil
+      exists?(key) ? YAML::load(data(key).get(:value)) : nil
     end
 
     # Deletes :key from the nosequel container
@@ -96,6 +98,7 @@ module NoSequel
 
     # Checks if a given key exists in the container
     def exists?(key)
+      validate_key(key)
       data(key).count == 1 ? true : false
     end
     alias_method :exist?, :exists?
@@ -114,7 +117,15 @@ module NoSequel
 
       # Returns a single record which matches key
       def data(key)
+        validate_key(key)
         @db.where(key: key.to_s)
+      end
+
+      def validate_key(key)
+        unless key.is_a?(Symbol) || key.is_a?(String)
+          raise ArgumentError, 'Key must be a string or symbol'
+        end
+        true
       end
 
   end
