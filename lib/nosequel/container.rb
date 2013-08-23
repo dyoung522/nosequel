@@ -7,45 +7,46 @@ require 'yaml'
 # in a database behind the scenes.
 module NoSequel
 
-  def initialize()
-  end
+  class << self
+    def make_config_string(opt_config)
+      config = OpenStruct.new( NoSequel::Configuration.default_config.merge(opt_config.to_hash) )
 
-  def self.make_config_string(opt_config)
-    config = OpenStruct.new( NoSequel::Configuration.default_config.merge(opt_config.to_hash) )
+      # Start our connection string
+      connect_string = "#{config.db_type || 'sqlite'}://"
 
-    # Start our connection string
-    connect_string = "#{config.db_type || 'sqlite'}://"
+      # Add user:password if supplied
+      if config.db_user
+        connect_string += "#{config.db_user}"
 
-    # Add user:password if supplied
-    if config.db_user
-      connect_string += "#{config.db_user}"
+        # Add either a @ or / depending on if a host was provided too
+        connect_string += config.db_host ? '@' : '/'
 
-      # Add either a @ or / depending on if a host was provided too
-      connect_string += config.db_host ? '@' : '/'
+        # Add host:port if supplied
+        connect_string += "#{config.db_host}/" if config.db_host
+      end
 
-      # Add host:port if supplied
-      connect_string += "#{config.db_host}/" if config.db_host
+      connect_string + config.db_name
     end
 
-    connect_string + config.db_name
-  end
+    # Creates and returns a nosequel container
+    def register( table, config = {} )
+      # Create the Sequel connection
+      @sequel = Sequel.connect( make_config_string(config) )
+      Container.new(@sequel, table)
+    end
 
-  # Creates and returns a nosequel container
-  def self.register( table, config = {} )
-    # Create the Sequel connection
-    @sequel = Sequel.connect( make_config_string(config) )
-    Container.new(@sequel, table)
-  end
+    # Permanently deletes table from the underlying database
+    def drop!( table )
+      raise RuntimeError, 'You must call register first' unless @sequel
+      @sequel.drop_table( table.to_sym ) if exists?(table)
+    end
 
-  # Permanently deletes table from the underlying database
-  def self.drop!( table )
-    @sequel.drop_table( table.to_sym ) if exists?(table)
-  end
-
-  # Tests if table exists in the database, returns true or false
-  def self.exists?( table )
-    @sequel.table_exists?( table.to_sym )
-  end
+    # Tests if table exists in the database, returns true or false
+    def exists?( table )
+      raise RuntimeError, 'You must call register first' unless @sequel
+      @sequel.table_exists?( table.to_sym )
+    end
+  end # Class << self
 
   # NoSequel::Container class defines the methods to
   class Container

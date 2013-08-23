@@ -24,6 +24,20 @@ class TestNoSequelConfig < Minitest::Unit::TestCase
                                                  db_host: db_host )
     assert_equal "#{db_type}://#{db_user}/#{db_name}", config_string
   end
+
+  def test_drop_method_raises_error_before_register
+    out, err = capture_io do
+      assert_raises(RuntimeError) { NoSequel.drop!(:test) }
+    end
+    assert_match err, 'must call register'
+  end
+
+  def test_exists_method_raises_error_before_register
+    out, err = capture_io do
+      assert_raises(RuntimeError) { NoSequel.exists?(:test) }
+    end
+    assert_match err, 'must call register'
+  end
 end
 
 class TestNoSequelModule < Minitest::Unit::TestCase
@@ -127,7 +141,7 @@ class TestNoSequelWrites < Minitest::Unit::TestCase
 
     @data[:test_object] = obj
 
-    assert_kind_of Struct, @data[:test_object]
+    assert_instance_of Tester, @data[:test_object]
     assert_equal 'hi there', @data[:test_object].data
   end
 end
