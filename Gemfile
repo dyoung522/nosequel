@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in cinch-storage.gemspec
+# Specify your gem's dependencies in nosequel.gemspec
 gemspec
 
 group :test do
   gem "minitest"
-  gem "minitest-reporters", '>= 0.5.0'
+  gem "minitest-reporters"
   gem 'sqlite3'
 end
 
