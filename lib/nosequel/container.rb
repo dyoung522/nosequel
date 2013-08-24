@@ -84,13 +84,13 @@ module NoSequel
 
     # Returns the value stored in :key, or nil of the data wasn't found.
     def [](key)
-      exists?(key) ? YAML::load(data(key).get(:value)) : nil
+      exists?(key) ? YAML::load(value(key)) : nil
     end
 
     # Deletes :key from the nosequel container
     def delete(key)
       if exists?(key)
-        value = data(key).get(:value)
+        value = value(key)
         data(key).delete
       end
       value
@@ -120,6 +120,10 @@ module NoSequel
       def data(key)
         validate_key(key)
         @db.where(key: key.to_s)
+      end
+
+      def value(key)
+        data(key).get(:value)
       end
 
       def validate_key(key)
