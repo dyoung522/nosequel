@@ -7,5 +7,5 @@
 # :include:LICENSE.txt
 
 require 'nosequel/version'
-require 'nosequel/config'
+require 'nosequel/configuration'
 require 'nosequel/container'
