@@ -2,7 +2,7 @@ NoSequel
 ========
 What is it?
 -----------
-NoSequel provides a NoSQL data container for storing key/value pairs using a persistent database.  It's powered by the Sequel O/RM system by Sharon Rosner and Jeremy Evans.
+NoSequel provides a simple, pure ruby, key/value data storage container using a persistent database powered by the Sequel O/RM system by Sharon Rosner and Jeremy Evans.
 
 How do I use it?
 ------------------
@@ -32,7 +32,7 @@ container[:some_key] = "Some value I care about"
 
 That's all there is to it, easy peasy ~~Japanesey~~!
 
-Once registered, container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval.
+Once registered, your container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval.
 
 If the value you're storing isn't already a String, we'll serialize it before saving and deserialize it upon retrieval.  Cool, huh?
 
