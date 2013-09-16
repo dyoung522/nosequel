@@ -4,7 +4,7 @@ class TestDataMethods < Minitest::Unit::TestCase
   include TestSetup
 
   def test_column_should_exist
-    assert @data.exists?(:test1), "@data[:test1] should exist"
+    assert @data.has_key?(:test1), "@data[:test1] should exist"
   end
 
   def test_retrieve_column_value
@@ -23,7 +23,7 @@ class TestDataMethods < Minitest::Unit::TestCase
 
   def test_delete_key
     out = @data.delete(:test1)
-    refute @data.exists?(:test1)
+    refute @data.has_key?(:test1)
     assert_equal 'value1', out
   end
 

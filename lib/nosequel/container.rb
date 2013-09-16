@@ -98,11 +98,12 @@ module NoSequel
     alias_method :remove, :delete
 
     # Checks if a given key exists in the container
-    def exists?(key)
+    def has_key?(key)
       validate_key(key)
       data(key).count == 1 ? true : false
     end
-    alias_method :exist?, :exists?
+    alias_method :exist?, :has_key?
+    alias_method :exists?, :has_key?
 
     # Handle all other Hash methods
     def method_missing(meth, *args, &block)
@@ -114,24 +115,25 @@ module NoSequel
       @db.to_hash(:key, :value).respond_to?(meth)
     end
 
+
     private
 
-      # Returns a single record which matches key
-      def data(key)
-        validate_key(key)
-        @db.where(key: key.to_s)
-      end
+    # Returns a single record which matches key
+    def data(key)
+      validate_key(key)
+      @db.where(key: key.to_s)
+    end
 
-      def value(key)
-        data(key).get(:value)
-      end
+    def value(key)
+      data(key).get(:value)
+    end
 
-      def validate_key(key)
-        unless key.is_a?(Symbol) || key.is_a?(String)
-          raise ArgumentError, 'Key must be a string or symbol'
-        end
-        true
+    def validate_key(key)
+      unless key.is_a?(Symbol) || key.is_a?(String)
+        raise ArgumentError, 'Key must be a string or symbol'
       end
+      true
+    end
 
   end
 end
