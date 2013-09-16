@@ -51,10 +51,13 @@ Send in a hash with the options you would like to change along with your call to
 
 ##### Like This...
 ```ruby
-container = NoSequel.register(:my_plugin, db_name: 'mydb',
-                                          db_type: 'mysql',
-                                          db_user: 'myname',
-                                          db_host: 'localhost')
+container = NoSequel.register(
+    :my_plugin,
+    db_name: 'mydb',
+    db_type: 'mysql',
+    db_user: 'myname',
+    db_host: 'localhost'
+)
 ```
 
 ### Notes
