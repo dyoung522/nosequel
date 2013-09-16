@@ -32,7 +32,7 @@ container[:some_key] = "Some value I care about"
 
 That's all there is to it, easy peasy ~~Japanesey~~!
 
-Once registered, your container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval.
+Once registered, your container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval between runs, or even from another program altogether -- the registration name is the key.
 
 If the value you're storing isn't already a String, we'll serialize it before saving and deserialize it upon retrieval.  Cool, huh?
 
