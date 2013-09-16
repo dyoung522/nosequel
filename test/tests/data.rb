@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestData < Minitest::Unit::TestCase
+class TestDataMethods < Minitest::Unit::TestCase
   include TestSetup
 
   def test_column_should_exist

@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestNoSequelQuery < Minitest::Unit::TestCase
+class TestQueryMethods < Minitest::Unit::TestCase
   include TestSetup
 
   def test_data_responds_to_Hash_methods

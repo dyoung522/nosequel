@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestConfiguration < Minitest::Unit::TestCase
+class TestConfigurationMethods < Minitest::Unit::TestCase
 
   def test_returns_valid_configuration_string
     ( db_name, db_type, db_user, db_host ) = %w(testing mysql test)

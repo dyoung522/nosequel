@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestNoSequelWrites < Minitest::Unit::TestCase
+class TestWriteMethods < Minitest::Unit::TestCase
   include TestSetup
 
   Tester = Struct.new(:data)

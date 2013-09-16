@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestNoSequelModule < Minitest::Unit::TestCase
+class TestModuleMethods < Minitest::Unit::TestCase
   include TestSetup
 
   def test_exists
