@@ -1,6 +1,7 @@
-require 'minitest/autorun'
-require "minitest/reporters"
 require 'nosequel'
+require 'minitest/spec'
+require 'minitest/autorun'
+require 'minitest/reporters'
 
 if ENV['RUBYMINE_TESTUNIT_REPORTER']
   MiniTest::Reporters.use! MiniTest::Reporters::RubyMineReporter
@@ -22,7 +23,4 @@ module TestSetup
     NoSequel.drop!(@table)
   end
 end
-
-# Run all tests in the tests directory (and any subdirectories)
-Dir.glob('./test/tests/**/*.rb').each { |file| require file}
 

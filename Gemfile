@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem "minitest"
+  gem "minitest", '~> 4.2.0'
   gem "minitest-reporters"
   gem 'sqlite3'
 end
