@@ -32,9 +32,11 @@ container[:some_key] = "Some value I care about"
 
 That's all there is to it, easy peasy ~~Japanesey~~!
 
-Once you've registered your plugin, your storage container will act much like a Hash, use it to store any object you want to retrieve later.  If the value you're storing isn't already a String, we'll serialize it before saving.
+Once registered, container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval.
 
-Behind the scenes, we're actually writing your data to a database in a table named `my_store`.  We (and by _we_, I mean Sequel) only read and write to the database when we absolutely have to, so it keeps disk access down to a minimum.  It's also thread-safe, so... YAY!
+If the value you're storing isn't already a String, we'll serialize it before saving and deserialize it upon retrieval.  Cool, huh?
+
+Behind the scenes, we're actually writing your data to a database (specifically, in a table named `my_store` in our example).  We (and by _we_, I mean Sequel) only read and write to the database when we absolutely have to, so it keeps disk access down to a minimum.  It's also thread-safe, so... YAY!
 
 ### Configure it
 The defaults (`sqlite`) are going to work pretty well for most people, but hey, if you want to change the database options, go for it!
@@ -61,14 +63,12 @@ container = NoSequel.register(
 ```
 
 ### Notes
-***Hey, you should know that we're still very much under development, so this information may or may not be lying to you.***
+***Hey, you should know that we're still under development, so this information may or may not be lying to you.***
 
-If you wish NoSequel could act in a particular way, or had some cool new feature it's missing, by all means, [let me know!](mailto:dyoung522@gmail.com)
-
-However, since NoSequel relies on [Sequel](https://github.com/jeremyevans/sequel) to provide the back-end database support, it **only** supports what they do.  Our goal is to keep this gem lightweight, so if you want to use some fancy new (or anciently old) database model that they don't (yet) support, 'tuff noogies -- go whine to them.  :-)
+Since NoSequel relies on [Sequel](https://github.com/jeremyevans/sequel) to provide the back-end database support, it **only** supports what they do.  Our goal is to keep this gem lightweight, so if you want to use some fancy new (or anciently old) database model that they don't (yet) support, 'tuff noogies -- go whine to them.  :-)
 
 <!-- TODO: Create documentation -->
-For full details and more examples, please see the Documentation
+For full details and more examples, please see the Documentation (as soon as we create it).
 
 Other Stuff you might want to know
 ----------------------------------
@@ -76,10 +76,10 @@ Other Stuff you might want to know
 - [Donovan C. Young](mailto:dyoung522@gmail.com)
 
 ### Help (I need somebody)!
-You can email me directly at dyoung522@gmail.com or find me lurking somewhere on irc.freenode.net
+You can email me directly at dyoung522@gmail.com or find me lurking somewhere on irc.freenode.net (as dyoung522)
 
 ### How can I help?
-Easy...
+If you wish NoSequel could act in a particular way, or had some cool new feature it's missing, by all means, [let me know!](mailto:dyoung522@gmail.com), or better yet...
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
