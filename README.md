@@ -48,8 +48,8 @@ Send in a hash with the options you would like to change along with your call to
 |:------:|:-------------|:---------------|
 | db_type | The database type (sqlite, mysql, postgres, etc.) -- see [Sequel Gem](http://sequel.rubyforge.org/rdoc-adapters/index.html) for complete options. | sqlite |
 | db_name | The name of the database (or file, depending on type) | data.db |
-| db_user | The database user[:password] to use. | sqlite |
-| db_host | The database host[:port] to use. | sqlite |
+| db_user | The database user[:password] to use. | none |
+| db_host | The database host[:port] to use. | localhost |
 
 ##### Like This...
 ```ruby
