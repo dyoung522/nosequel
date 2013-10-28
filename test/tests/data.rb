@@ -27,4 +27,9 @@ class TestDataMethods < Minitest::Unit::TestCase
     assert_equal 'value1', out
   end
 
+  def test_data_persists_between_calls
+    @data = nil
+    newdata = NoSequel.register(:test, db_type: 'sqlite', db_name: 'test.db')
+    assert_equal 'value1', newdata[:test1], "Data should persist between NoSequel calls"
+  end
 end

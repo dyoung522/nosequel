@@ -6,7 +6,7 @@ class TestWriteMethods < Minitest::Unit::TestCase
   Tester = Struct.new(:data)
 
   def test_non_string_key_raises_error
-    assert_raises(ArgumentError) { @data[Struct.new(:data)] }
+    assert_raises(ArgumentError) { @data[Tester] = 'invalid' }
   end
 
   def test_serialize_objects_before_write

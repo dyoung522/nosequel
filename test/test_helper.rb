@@ -16,7 +16,7 @@ module TestSetup
     @table = :test
     @data = NoSequel.register(@table, db_type: 'sqlite', db_name: 'test.db')
 
-    (1..4).each { |i| @data["test#{i}".to_sym] = "value#{i}" }
+    (1..4).each { |i| @data["test#{i}"] = "value#{i}" }
   end
 
   def teardown
