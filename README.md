@@ -40,7 +40,7 @@ This sets up a `container` which acts as your primary data store.  Then, all you
 container[:some_key] = "Some value I care about"
 ```
 
-That's all there is to it, easy peasy ~~Japanesey~~! __I apologize to my East Asian friends, I mean no offense.__
+That's all there is to it, easy peasy ~~Japanesey~~! *[appologies to my East Asian friends, I mean no offense]*
 
 Once registered, your container is a simple, persistent, HASH-like storage system. Use it to store any object you want to persist between runs of you ruby code.  Yup! That's right! You can store just about any Object in your container for later retrieval between runs, or even from another program altogether -- the registration name is the key.
 
