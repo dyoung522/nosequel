@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = NoSequel::VERSION
   spec.authors       = ["Donovan C. Young"]
   spec.email         = ["dyoung522@gmail.com"]
-  spec.description   = "NoSQL storage methods for Sequel O/RM"
-  spec.summary       = "Provides a NoSQL interface class for data storage, backed by Sequel"
+  spec.description   = "Simple NoSQL-like storage methods for Sequel O/RM"
+  spec.summary       = "Provides a NoSQL-like interface for data storage, backed by Sequel"
   spec.homepage      = "http://github.com/dyoung522/nosequel"
   spec.license       = "MIT"
 
