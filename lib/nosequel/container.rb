@@ -4,17 +4,10 @@ require 'yaml'
 module NoSequel
   class Container
 
-    # NoSequel::Container constructor
-    # called via NoSequel.register(:table)
-    # == Parameters:
-    # db::
-    #   Sequel object
-    # table::
-    #   The Sequel database table
-    #
-    # == Returns:
-    # A valid Container object
-    #
+    # NoSequel::Container constructor ( called via NoSequel.register )
+    # @param db [Sequel object]
+    # @param table [Symbol] The objects key identifier
+    # @return [Container object]
     def initialize(db, table)
 
       unless db.table_exists?(table.to_sym)
@@ -31,16 +24,13 @@ module NoSequel
       @db     = db[table]
     end
 
-    # Public Atributes
-    # db::
-    #   NoSequel data object
-    # sequel::
-    #   Underlying Sequel database object
-    #
+    # @!attribute [r] db
+    #   @return NoSequel data object
+    # @!attribute [r] sequel
+    #   @return Underlying Sequel database object
     attr_reader :db, :sequel
 
     # Assigns the <value> to a given <:key>
-    #
     def []=(key, value)
       obj = value.is_a?(String) ? value : YAML::dump(value)
       if exists?(key) # column already exists
@@ -51,13 +41,11 @@ module NoSequel
     end
 
     # Returns the value stored in :key, or nil of the data wasn't found.
-    #
     def [](key)
       exists?(key) ? YAML::load(value(key)) : nil
     end
 
     # Deletes :key from the nosequel container
-    #
     def delete(key)
       if exists?(key)
         value = value(key)
@@ -68,7 +56,6 @@ module NoSequel
     alias_method :remove, :delete
 
     # Checks if a given key exists in the container
-    #
     def has_key?(key)
       data(validate_key(key)).count == 1 ? true : false
     end
@@ -78,13 +65,11 @@ module NoSequel
     private
 
     # Handle all other Hash methods
-    #
     def method_missing(meth, *args, &block)
       db.to_hash(:key, :value).send(meth, *args, &block)
     end
 
     # Make sure we respond to all Hash methods
-    #
     def respond_to?(meth)
       db.to_hash(:key, :value).respond_to?(meth)
     end
