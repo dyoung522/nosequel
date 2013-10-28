@@ -78,7 +78,7 @@ module NoSequel
       if exists?(key) # column already exists
         data(key).update(value: obj)
       else
-        @db.insert(key: key.to_s, value: obj)
+        db.insert(key: key.to_s, value: obj)
       end
     end
 
@@ -107,12 +107,12 @@ module NoSequel
 
     # Handle all other Hash methods
     def method_missing(meth, *args, &block)
-      @db.to_hash(:key, :value).send(meth, *args, &block)
+      db.to_hash(:key, :value).send(meth, *args, &block)
     end
 
     # Make sure we respond to all Hash methods
     def respond_to?(meth)
-      @db.to_hash(:key, :value).respond_to?(meth)
+      db.to_hash(:key, :value).respond_to?(meth)
     end
 
 
@@ -121,7 +121,7 @@ module NoSequel
     # Returns a single record which matches key
     def data(key)
       validate_key(key)
-      @db.where(key: key.to_s)
+      db.where(key: key.to_s)
     end
 
     def value(key)
