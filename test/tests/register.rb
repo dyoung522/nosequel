@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class TestModuleMethods < Minitest::Unit::TestCase
+class TestRegister < Minitest::Unit::TestCase
   include TestSetup
 
   def test_exists
