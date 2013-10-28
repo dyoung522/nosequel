@@ -84,7 +84,7 @@ Other Stuff you might want to know
 - [Donovan C. Young](https://github.com/dyoung522)
 
 ### Help (I need somebody)!
-You can email me directly via dyoung522 at gmail.com or find me lurking somewhere on irc.freenode.net (as dyoung522)
+You can email me directly via dyoung522 at gmail.com or find me lurking somewhere on irc.freenode.net (as DonovanYoung)
 
 ### How can I help?
 If you wish NoSequel could act in a particular way, or had some cool new feature it's missing, by all means, [let me know!](mailto:dyoung522@gmail.com), or better yet...
