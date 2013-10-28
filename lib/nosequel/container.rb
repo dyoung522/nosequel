@@ -1,59 +1,20 @@
-require 'sequel'
-require 'ostruct'
 require 'yaml'
 
-# This Module provides key/value storage methods to a database powered by Sequel
-# Once created, a nosequel container works much like a Hash, but stores the data
-# in a database behind the scenes.
+# NoSequel::Container class
 module NoSequel
-
-  class << self
-    def make_config_string(opt_config)
-      config = OpenStruct.new( NoSequel::Configuration.default_config.merge(opt_config.to_hash) )
-
-      # Start our connection string
-      connect_string = "#{config.db_type || 'sqlite'}://"
-
-      # Add user:password if supplied
-      if config.db_user
-        connect_string += "#{config.db_user}"
-
-        # Add either a @ or / depending on if a host was provided too
-        connect_string += config.db_host ? '@' : '/'
-
-        # Add host:port if supplied
-        connect_string += "#{config.db_host}/" if config.db_host
-      end
-
-      connect_string + config.db_name
-    end
-
-    # Creates and returns a nosequel container
-    def register( table, config = {} )
-      # Create the Sequel connection
-      @sequel = Sequel.connect( make_config_string(config) )
-      Container.new(@sequel, table)
-    end
-
-    # Permanently deletes table from the underlying database
-    def drop!( table )
-      raise RuntimeError, 'You must call register first' unless @sequel
-      @sequel.drop_table( table.to_sym ) if exists?(table)
-    end
-
-    # Tests if table exists in the database, returns true or false
-    def exists?( table )
-      raise RuntimeError, 'You must call register first' unless @sequel
-      @sequel.table_exists?( table.to_sym )
-    end
-  end # Class << self
-
-  # NoSequel::Container class defines the methods to
   class Container
 
-    # Create and/or retrieve a table from our database
-    # and returns a nosequel container class.
+    # NoSequel::Container constructor
     # called via NoSequel.register(:table)
+    # == Parameters:
+    # db::
+    #   Sequel object
+    # table::
+    #   The Sequel database table
+    #
+    # == Returns:
+    # A valid Container object
+    #
     def initialize(db, table)
 
       unless db.table_exists?(table.to_sym)
@@ -66,13 +27,20 @@ module NoSequel
         db.add_index table, :value
       end
 
-      @db    = db[table]
-      @table = table
+      @sequel = db
+      @db     = db[table]
     end
 
-    attr_reader :table, :db
+    # Public Atributes
+    # db::
+    #   NoSequel data object
+    # sequel::
+    #   Underlying Sequel database object
+    #
+    attr_reader :db, :sequel
 
     # Assigns the <value> to a given <:key>
+    #
     def []=(key, value)
       obj = value.is_a?(String) ? value : YAML::dump(value)
       if exists?(key) # column already exists
@@ -83,11 +51,13 @@ module NoSequel
     end
 
     # Returns the value stored in :key, or nil of the data wasn't found.
+    #
     def [](key)
       exists?(key) ? YAML::load(value(key)) : nil
     end
 
     # Deletes :key from the nosequel container
+    #
     def delete(key)
       if exists?(key)
         value = value(key)
@@ -98,42 +68,45 @@ module NoSequel
     alias_method :remove, :delete
 
     # Checks if a given key exists in the container
+    #
     def has_key?(key)
-      validate_key(key)
-      data(key).count == 1 ? true : false
+      data(validate_key(key)).count == 1 ? true : false
     end
     alias_method :exist?, :has_key?
     alias_method :exists?, :has_key?
 
+    private
+
     # Handle all other Hash methods
+    #
     def method_missing(meth, *args, &block)
       db.to_hash(:key, :value).send(meth, *args, &block)
     end
 
     # Make sure we respond to all Hash methods
+    #
     def respond_to?(meth)
       db.to_hash(:key, :value).respond_to?(meth)
     end
 
-
-    private
-
     # Returns a single record which matches key
     def data(key)
-      validate_key(key)
-      db.where(key: key.to_s)
+      db.where(key: validate_key(key).to_s)
     end
 
+    # Returns the value of a given key
     def value(key)
       data(key).get(:value)
     end
 
+    # Make sure the key is valid
     def validate_key(key)
       unless key.is_a?(Symbol) || key.is_a?(String)
         raise ArgumentError, 'Key must be a string or symbol'
       end
-      true
+      key
     end
 
   end
+
 end
